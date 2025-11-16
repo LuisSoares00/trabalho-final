@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Luisin</title>
+    <style>
+         #login-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #login-link:hover {
+            color: #d4af37;
+            background-color: rgba(255,255,255,0.1);
+        }
+		* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: #d4af37;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        nav ul li a:hover, nav ul li a.ativo {
+            color: #d4af37;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .banner {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .banner p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn, .btn-secundario, .btn-agendar {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn {
+            background-color: #d4af37;
+            color: #1a1a1a;
+        }
+
+        .btn:hover {
+            background-color: #b8941f;
+        }
+
+        .btn-agendar {
+            background-color: #1a1a1a;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-agendar:hover {
+            background-color: #d4af37;
+            color: #1a1a1a;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px; /* Para compensar o header fixo */
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        .subtitulo {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .grid-barbeiros {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card-barbeiro {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .card-barbeiro:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-barbeiro img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .card-barbeiro h3 {
+            padding: 1rem 1rem 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .card-barbeiro p {
+            padding: 0 1rem 1rem;
+            color: #666;
+        }
+
+        .especialidades {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 0 1rem 1rem;
+        }
+
+        .especialidades span {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Seção de agendamento */
+        .agendamento-section {
+            background-color: #f5f5f5;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+
+        .agendamento-container {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agendamento-info {
+            text-align: center;
+            color: #666;
+        }
+
+        .calendario {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+
+        .info-barbeiro {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-barbeiro img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendario-mes {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .btn-anterior, .btn-proximo {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #d4af37;
+        }
+
+        .dias-semana {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .dia-semana {
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .dias-calendario {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .dia {
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dia:hover {
+            background-color: #f0f0f0;
+        }
+
+        .dia.disponivel {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .dia.selecionado {
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .dia.indisponivel {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+		
+        .horarios {
+            margin-top: 1.5rem;
+        }
+
+        .horarios h3 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .grid-horarios {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .horario {
+            padding: 10px;
+            text-align: center;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .horario:hover {
+            background-color: #e0e0e0;
+        }
+
+        .horario.selecionado {
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .horario.indisponivel {
+            background-color: #ffebee;
+            color: #c62828;
+            cursor: not-allowed;
+        }
+
+        .lista-servicos {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .lista-servicos ul {
+            list-style-type: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .lista-servicos li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .lista-servicos li:before {
+            content: "✓";
+            color: #d4af37;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .tabela-precos {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #1a1a1a;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 2rem 0 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #d4af37;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #d4af37;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .banner h2 {
+                font-size: 2rem;
+            }
+            
+            .grid-barbeiros {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendario-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner {
+                padding: 3rem 0;
+            }
+            
+            .banner h2 {
+                font-size: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 2rem 0;
+        }
+
+        .login-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h2 {
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #d4af37;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #b8941f;
+        }
+
+        .login-links {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .login-links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .login-links a:hover {
+            color: #d4af37;
+        }
+
+        .contato-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .contato-info h3 {
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .contato-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .mapa {
+            margin-top: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .mapa iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="LUISIN.png" alt="Barbearia Luisin">
+                <h1>Barbearia Luisin</h1>
+            </div>
+			<nav>
+                <ul>
+                    <li><a href="#inicio" class="nav-link" data-target="inicio">Início</a></li>
+                    <li><a href="#servicos" class="nav-link" data-target="servicos">Serviços</a></li>
+                    <li><a href="#contato" class="nav-link" data-target="contato">Contato</a></li>
+                    <li><a href="login.html" id="login-link" target="_blank">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="banner" id="inicio">
+        <div class="container">
+            <h2>Os Cortes mais Quentes saem daqui</h2>
+            <p>Mais de 10 anos proporcionando os melhores cortes e experiências em barbearia</p>
+            <a href="#agendamento" class="btn">Agendar Horário</a>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="destaques">
+            <h2>Nossos Barbeiros</h2>
+            <p class="subtitulo">Conheça nossa equipe de profissionais quentissimos pra hora!</p>
+            <div class="grid-barbeiros" id="barbeiros">
+                <div class="card-barbeiro" data-barbeiro="1">
+                    <img src="https://i.pinimg.com/736x/96/58/bf/9658bf0d5f88fcd27009908a7b4fce5f.jpg" alt="Irinel Você Não Sabe Nem Eu">
+                    <h3>Irinel Você Não Sabe Nem Eu</h3>
+                    <p>Se quiser fazer a barba na rajada vem com ele</p>
+                    <div class="especialidades">
+                        <span>Cortes Quentes</span>
+                        <span>Barba na Rajada</span>
+                    </div>
+                    <button class="btn-agendar" onclick="selecionarBarbeiro(1)">Agendar</button>
+                </div>
+                <div class="card-barbeiro" data-barbeiro="2">
+                    <img src="https://elements-resized.envatousercontent.com/elements-video-cover-images/files/222849068/preview.jpg?w=500&cf_fit=cover&q=85&format=auto&s=cf5e8fa04392ea67bfb6e888fc3a28b86109b51b4b1d3d47d7e55ca46990c3b4" alt="Mestre dos Magos">
+                    <h3>Mestre dos Magos</h3>
+                    <p>Qualquer corte ele da conta</p>
+                    <div class="especialidades">
+                        <span>Qualquer cabelo</span>
+                        <span>Degradê Rajadeiro</span>
+                    </div>
+                    <button class="btn-agendar" onclick="selecionarBarbeiro(2)">Agendar</button>
+                </div>
+                <div class="card-barbeiro" data-barbeiro="3">
+                    <img src="https://media.istockphoto.com/id/640274128/pt/foto/barber-using-scissors-and-comb.jpg?s=612x612&w=0&k=20&c=83Oj99wpKeTKoIOgRJgIOEzu46Ar6MlIvkZUmann6Dc=" alt="Pedro Pulgar de Arrascaeta">
+                    <h3>Pedro Pulgar de Arrascaeta</h3>
+                    <p>O mais brabo ja nascido</p>
+                    <div class="especialidades">
+                        <span>Reflexo Alinhadissimo</span>
+                        <span>Tesoura afiada</span>
+                    </div>
+                    <button class="btn-agendar" onclick="selecionarBarbeiro(3)">Agendar</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="agendamento" class="agendamento-section">
+            <h2>Agendamento Online</h2>
+            <p class="subtitulo">Selecione um barbeiro para ver a disponibilidade</p>
+            
+            <div class="agendamento-container" id="agendamento-container">
+                <div class="agendamento-info">
+                    <p>Clique em um barbeiro acima para ver os horários disponíveis</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicos" class="servicos">
+            <h2>Nossos Serviços</h2>
+            <div class="lista-servicos">
+                <ul>
+                    <li>Peruca para Carecas</li>
+                    <li>Barba na Rajada</li>
+                    <li>Degradê Quente</li>
+                    <li>Reflexo Alinhadissimo</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="tabela-precos">
+            <h2>Tabela de Preços</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Serviço</th>
+                        <th>Descrição</th>
+                        <th>Preço</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Peruca para Carecas</td>
+                        <td>Perucas de todos os tamanhos e cores, com corte incluso.</td>
+                        <td>R$ 210,00</td>
+                    </tr>
+                    <tr>
+                        <td>Barba na Rajada</td>
+                        <td>Italiana, com ou sem pretinho pra ficar naquele pique.</td>
+                        <td>R$ 30,00</td>
+                    </tr>
+                    <tr>
+                        <td>Degradê Quente</td>
+                        <td>Disfarce de cria + Barba.</td>
+                        <td>R$ 65,00</td>
+                    </tr>
+                    <tr>
+                        <td>Reflexo Alinhadissimo</td>
+                        <td>Cabelo de acabaxi com corte e barba.</td>
+                        <td>R$ 120,00</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+
+        <section id="contato" class="contato">
+            <h2>Contato</h2>
+            <div class="contato-info">
+                <h3>Entre em contato conosco</h3>
+                <p><strong>Email:</strong> barbearialuisin@gmail.com</p>
+                <p><strong>Telefone:</strong> (21) 97712-8661</p>
+                <p><strong>Instagram:</strong> @luisinbarbearia_</p>
+                <p><strong>Endereço:</strong> Rua Agostinho Carrara n°37 - Centro - Rio de Janeiro/RJ</p>
+                
+                <div class="mapa">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.368415039602!2d-43.18286592468731!3d-22.902143579258142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997f5e76b5f5c7%3A0xf4a0c5e8d344e5f8!2sCentro%2C%20Rio%20de%20Janeiro%20-%20RJ!5e0!3m2!1spt-BR!2sbr!4v1647897892345!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Barbearia Luisin</h3>
+                    <p>Tradição e qualidade em serviços de barbearia desde 2012.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p>Email: barbearialuisin@gmail.com</p>
+                    <p>Telefone: (21) 97712-8661</p>
+                    <p>Instagram: @luisinbarbearia_</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Horário de Funcionamento</h3>
+                    <p>Segunda a Sexta: 9h às 19h</p>
+                    <p>Sábado: 8h às 18h</p>
+                    <p>Domingo: Fechado</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Barbearia Luisin. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const barbeiros = {
+            1: {
+                nome: "Irinel Você Não Sabe Nem Eu",
+                foto: "https://i.pinimg.com/736x/96/58/bf/9658bf0d5f88fcd27009908a7b4fce5f.jpg",
+                especialidades: ["Se quiser fazer a barba na rajada vem com ele"]
+            },
+            2: {
+                nome: "Mestre dos Magos", 
+                foto: "https://elements-resized.envatousercontent.com/elements-video-cover-images/files/222849068/preview.jpg?w=500&cf_fit=cover&q=85&format=auto&s=cf5e8fa04392ea67bfb6e888fc3a28b86109b51b4b1d3d47d7e55ca46990c3b4",
+                especialidades: ["Qualquer corte ele da conta"]
+            },
+            3: {
+                nome: "Pedro Pulgar de Arrascaeta",
+                foto: "https://media.istockphoto.com/id/640274128/pt/foto/barber-using-scissors-and-comb.jpg?s=612x612&w=0&k=20&c=83Oj99wpKeTKoIOgRJgIOEzu46Ar6MlIvkZUmann6Dc=", 
+                especialidades: ["Esse é o mais brabo já nascido!"]
+            }
+        };
+
+        const horariosDisponiveis = {
+            1: ["09:00", "10:30", "14:00", "15:30", "17:00"],
+            2: ["10:00", "11:30", "13:00", "16:00", "17:30"], 
+            3: ["09:30", "11:00", "14:30", "16:30"]
+        };
+
+        let estadoAgendamento = {
+            barbeiroSelecionado: null,
+            dataSelecionada: null,
+            horarioSelecionado: null
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.id !== 'login-link') {
+                        e.preventDefault();
+                        
+                        const targetId = this.getAttribute('data-target');
+                        const targetSection = document.getElementById(targetId);
+                        
+                        if (targetSection) {
+                            window.scrollTo({
+                                top: targetSection.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+        // Seleciona um barbeiro e exibe o calendário
+        function selecionarBarbeiro(idBarbeiro) {
+            estadoAgendamento.barbeiroSelecionado = idBarbeiro;
+            estadoAgendamento.dataSelecionada = null;
+            estadoAgendamento.horarioSelecionado = null;
+            
+            const barbeiro = barbeiros[idBarbeiro];
+            const container = document.getElementById('agendamento-container');
+            
+            container.innerHTML = `
+                <div class="calendario">
+                    <div class="info-barbeiro">
+                        <img src="${barbeiro.foto}" alt="${barbeiro.nome}">
+                        <div>
+                            <h3>${barbeiro.nome}</h3>
+                            <p>${barbeiro.especialidades.join(', ')}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="calendario-content">
+                        <div class="calendario-header">
+                            <button class="btn-anterior" onclick="mudarMes(-1)">&lt; Mês Anterior</button>
+                            <div class="calendario-mes" id="calendario-mes">Novembro 2025</div>
+                            <button class="btn-proximo" onclick="mudarMes(1)">Próximo Mês &gt;</button>
+                        </div>
+                        
+                        <div class="dias-semana">
+                            <div class="dia-semana">Dom</div>
+                            <div class="dia-semana">Seg</div>
+                            <div class="dia-semana">Ter</div>
+                            <div class="dia-semana">Qua</div>
+                            <div class="dia-semana">Qui</div>
+                            <div class="dia-semana">Sex</div>
+                            <div class="dia-semana">Sáb</div>
+                        </div>
+                        
+                        <div class="dias-calendario" id="dias-calendario">
+                            <!-- Dias serão gerados pelo JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="horarios" id="horarios-container" style="display: none;">
+                        <h3>Horários Disponíveis</h3>
+                        <div class="grid-horarios" id="grid-horarios">
+                            <!-- Horários serão gerados pelo JavaScript -->
+                        </div>
+                        <button class="btn" style="margin-top: 1rem; width: 100%;" onclick="finalizarAgendamento()">Confirmar Agendamento</button>
+                    </div>
+                </div>
+            `;
+            
+            gerarCalendario();
+        }
+
+        function gerarCalendario() {
+            const diasContainer = document.getElementById('dias-calendario');
+            diasContainer.innerHTML = '';
+            
+            const diasNoMes = 31;
+            const primeiroDia = 3;
+
+            for (let i = 0; i < primeiroDia; i++) {
+                const diaVazio = document.createElement('div');
+                diaVazio.className = 'dia';
+                diasContainer.appendChild(diaVazio);
+            }
+
+            for (let i = 1; i <= diasNoMes; i++) {
+                const dia = document.createElement('div');
+                dia.className = 'dia disponivel';
+                dia.textContent = i;
+                dia.onclick = function() { selecionarData(i); };
+                diasContainer.appendChild(dia);
+            }
+        }
+
+        function selecionarData(dia) {
+            estadoAgendamento.dataSelecionada = dia;
+			
+            const todosDias = document.querySelectorAll('.dia');
+            todosDias.forEach(d => d.classList.remove('selecionado'));
+            
+            const diaSelecionado = Array.from(todosDias).find(d => d.textContent == dia);
+            if (diaSelecionado) {
+                diaSelecionado.classList.add('selecionado');
+            }
+
+            const horariosContainer = document.getElementById('horarios-container');
+            const gridHorarios = document.getElementById('grid-horarios');
+            
+            horariosContainer.style.display = 'block';
+            gridHorarios.innerHTML = '';
+            
+            const horarios = horariosDisponiveis[estadoAgendamento.barbeiroSelecionado] || [];
+            
+            horarios.forEach(horario => {
+                const horarioElement = document.createElement('div');
+                horarioElement.className = 'horario';
+                horarioElement.textContent = horario;
+                horarioElement.onclick = function() { selecionarHorario(horario, horarioElement); };
+                gridHorarios.appendChild(horarioElement);
+            });
+        }
+
+        function selecionarHorario(horario, elemento) {
+            estadoAgendamento.horarioSelecionado = horario;
+ 
+            const todosHorarios = document.querySelectorAll('.horario');
+            todosHorarios.forEach(h => h.classList.remove('selecionado'));
+            
+            elemento.classList.add('selecionado');
+        }
+
+        function finalizarAgendamento() {
+            if (!estadoAgendamento.barbeiroSelecionado || !estadoAgendamento.dataSelecionada || !estadoAgendamento.horarioSelecionado) {
+                alert('Por favor, selecione um barbeiro, data e horário para agendar.');
+                return;
+            }
+            
+            const barbeiro = barbeiros[estadoAgendamento.barbeiroSelecionado];
+            alert(`Agendamento confirmado!\n\nBarbeiro: ${barbeiro.nome}\nData: ${estadoAgendamento.dataSelecionada}/03/2023\nHorário: ${estadoAgendamento.horarioSelecionado}\n\nObrigado por escolher a Barbearia Luisin!`);
+            
+            estadoAgendamento = {
+                barbeiroSelecionado: null,
+                dataSelecionada: null,
+                horarioSelecionado: null
+            };
+
+            document.getElementById('agendamento-container').innerHTML = `
+                <div class="agendamento-info">
+                    <p>Clique em um barbeiro acima para ver os horários disponíveis</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
